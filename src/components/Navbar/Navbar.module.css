@@ -1,0 +1,6 @@
+.nav {
+    grid-area: nav;
+    background-color: cadetblue;
+    padding: 10px 0 0 15px;
+}
+
