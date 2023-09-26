@@ -1,0 +1,14 @@
+.Post {
+    display: flex;
+    gap: 15px;
+}
+.Post img{
+    margin-top: 10px;
+    object-fit: cover;
+    max-width: 80px;
+    height: 80px;
+    width:110%;
+}
+.Message {
+    color: #ffbd00;
+}

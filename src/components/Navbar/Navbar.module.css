@@ -2,5 +2,16 @@
     grid-area: nav;
     background-color: cadetblue;
     padding: 10px 0 0 15px;
+
+}
+.nav ul {
+    color: white;
+}
+.item {
+    color:gold;
+}
+.nav a {
+    color: white;
+    text-decoration: none;
 }
 

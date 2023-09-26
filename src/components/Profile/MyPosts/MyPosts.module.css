@@ -1,0 +1,22 @@
+
+.posts {
+    max-width: 450px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.posts textarea {
+    width: 100%;
+    height: 100px;
+    background-color: #74daff;
+    border-radius: 10px;
+    padding: 10px 0 0 10px;
+}
+.posts button {
+    align-self: flex-end;
+    max-width: 80px;
+    width: 100%;
+    height: 25px;
+    background-color: mediumslateblue;
+}

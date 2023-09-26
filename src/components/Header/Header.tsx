@@ -3,7 +3,7 @@ import classes from './Header.module.css'
 const Header = () => {
     return (
         <header className={classes.header}>
-            <img
+            <img className={classes.logo}
             src="https://static.vecteezy.com/system/resources/thumbnails/024/553/676/small/skull-wearing-crown-logo-skull-king-sticker-pastel-cute-colors-generative-ai-png.png"
             alt=""/>
         </header>
