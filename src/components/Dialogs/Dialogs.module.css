@@ -1,0 +1,22 @@
+.dialogWrapper {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+}
+
+.dialogItems {
+
+}
+.dialog {
+    color: white;
+}
+
+.active {
+    color: gold;
+    font-size: 20px;
+}
+.item {
+    color:white;
+}
+.message {
+    color: orangered;
+}

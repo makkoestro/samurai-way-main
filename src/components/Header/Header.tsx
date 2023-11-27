@@ -4,7 +4,7 @@ const Header = () => {
     return (
         <header className={classes.header}>
             <img className={classes.logo}
-            src="https://static.vecteezy.com/system/resources/thumbnails/024/553/676/small/skull-wearing-crown-logo-skull-king-sticker-pastel-cute-colors-generative-ai-png.png"
+            src="https://whc.unesco.org/uploads/thumbs/site_1703_0003-750-750-20230206105558.jpg"
             alt=""/>
         </header>
 

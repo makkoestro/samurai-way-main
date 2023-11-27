@@ -7,7 +7,7 @@
 .nav ul {
     color: white;
 }
-.item {
+.nav .active {
     color:gold;
 }
 .nav a {
