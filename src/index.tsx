@@ -1,24 +1,24 @@
 
 import './index.css';
-import {state, subscriber} from "./redux/state";
+import {store} from "./redux/state";
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App, {PropsPostsType, stateType} from './App';
 import {BrowserRouter} from "react-router-dom";
-import {addDialogMessage, addPost, changeDialogMessage, changeTextAreaValue} from "./redux/state";
+
 
 
 export const rerenderEntireTree = (state:stateType) => {
     ReactDOM.render(
         <BrowserRouter>
             <App
-                state={state}
-                addPost={addPost}
-                changeTextAreaValue={changeTextAreaValue}
-                changeDialogMessage={changeDialogMessage}
-                addDialogMessage={addDialogMessage}
+                state={store.getState()}
+                addPost={store.addPost.bind(store)}
+                changeTextAreaValue={store.changeTextAreaValue.bind(store)}
+                changeDialogMessage={store.changeDialogMessage.bind(store)}
+                addDialogMessage={store.addDialogMessage.bind(store)}
             />
         </BrowserRouter>,
         document.getElementById('root')
@@ -26,8 +26,8 @@ export const rerenderEntireTree = (state:stateType) => {
 }
 
 
-rerenderEntireTree(state)
+rerenderEntireTree(store.getState())
 
-subscriber(rerenderEntireTree)
+store.subscriber(rerenderEntireTree)
 
 
