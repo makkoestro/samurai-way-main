@@ -8,6 +8,8 @@ import {Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
+import {ActionType} from "./redux/state";
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 export type DialogsPropsType = {
     id: number; name: string;
@@ -20,6 +22,10 @@ export type DialogsPageType = {
     dialogsData: DialogsPropsType[]
     dialogMessage: string
 
+}
+export type ProfilePageType = {
+    postsData: PropsPostsType[]
+    message: string
 }
 export type stateType = {
     profilePage: {
@@ -37,34 +43,20 @@ export type PropsPostsType = {
 
 
 export type StatePropsType = {
-    addPost: () => void;
+    dispatch: (action: ActionType) => void;
     state: stateType
-    changeTextAreaValue: (message: string) => void;
-    changeDialogMessage: (message: string) => void;
-    addDialogMessage: () => void;
 }
 
-function App(props: StatePropsType) {
+function App() {
     return (
         <div className="app-wrapper">
             <Header/>
             <Navbar/>
             <main
                 className={'app-wrapper-main'}>     {/*что бы применялись повторяющиеся стили вне зависимости от контента*/}
-                <Route path={'/profile'} render={() => <Profile addPost={props.addPost}
-                                                                posts={props.state.profilePage}
-                                                                postMessage={props.state.profilePage.message}
-                                                                changeTextAreaValue={props.changeTextAreaValue}
-
-
-
-                /> }/>
+                <Route path={'/profile'} render={() => <Profile/>}/>
                 <Route path={'/dialogs'}
-                       render={() => <Dialogs dialogsPage={props.state.dialogsPage}
-                                              changeDialogMessage={props.changeDialogMessage}
-                                              addDialogMessage={props.addDialogMessage}
-
-                       />}/>
+                       render={() => <DialogsContainer />}/>
                 <Route path={'/news'} component={News}/>
                 <Route path={'/music'} component={Music}/>
                 <Route path={'/settings'} component={Settings}/>

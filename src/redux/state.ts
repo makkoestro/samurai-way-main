@@ -1,6 +1,26 @@
 import {stateType} from "../App";
+import profileReducer, {
+    AddPostsActionType,
+    ChangeTextareaValueActionType,
+    ProfilePageActionType
+} from "./profile-reducer";
+import dialogReducer, {AddDialogMessageActionType, ChangeDialogMessageActionType, DialogsActionType} from "./dialogs-reducer";
 
-export const store = {
+type StoreType = {
+    _state: stateType,
+    getState: () => stateType
+    _callSubscriber: (state: stateType) => void,
+    // subscribe: (observer: (state: stateType) => void) => void
+    dispatch: (action: ActionType) => void
+}
+export type ActionType =
+    AddPostsActionType | ChangeTextareaValueActionType |
+AddDialogMessageActionType | ChangeDialogMessageActionType
+
+
+
+
+export const store: StoreType = {
     _state: {
         profilePage: {
             postsData: [
@@ -29,38 +49,20 @@ export const store = {
     getState() {
         return this._state
     },
-    rerenderEntireTree (state: stateType) {
-        console.log('lol')
-    },
-    addPost ()  {
 
-        let newPost =  {id: this._state.profilePage.postsData.length + 1 , message: store._state.profilePage.message, likesCount: 0}
-        this._state.profilePage.postsData.push(newPost)
-        this._state.profilePage.message = ''
-        this.rerenderEntireTree(this._state)
+    _callSubscriber() {
+        console.log('changed')
     },
-    changeTextAreaValue (message:string)  {
-        this._state.profilePage.message = message
-        this.rerenderEntireTree(this._state)
-    },
-    changeDialogMessage (message:string)  {
-        this._state.dialogsPage.dialogMessage = message
-        this.rerenderEntireTree(this._state)
-    },
-    addDialogMessage ()  {
-        let newDialogMessage = {
-            id: 1, message: this._state.dialogsPage.dialogMessage
-        }
-        this._state.dialogsPage.messagesData.push(newDialogMessage)
-        this._state.dialogsPage.dialogMessage = ''
-        this.rerenderEntireTree(this._state)
-    },
-    subscriber (observer:(state:stateType) => void) {
-        this.rerenderEntireTree = observer
+    // subscribe(observer: (state: stateType) => void) {
+    //     this._callSubscriber = observer
+    // },
+    dispatch(action: ActionType) {
+        console.log(action)
+        this._state.profilePage = profileReducer(store._state.profilePage, action)
+        this._state.dialogsPage = dialogReducer(store._state.dialogsPage, action)
+        // this._callSubscriber(this._state)
     }
 }
-
-
 
 
 

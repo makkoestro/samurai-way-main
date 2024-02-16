@@ -3,20 +3,16 @@ import classes from "./Profile.module.css";
 import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import { PropsPostsType} from "../../App";
+import {ActionType} from "../../redux/state";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import {AppRootStateType} from "../../redux/store";
 
-export type PostsType = {
-    addPost: () => void;
-    posts: {
-        postsData: PropsPostsType[]
-    }
-    postMessage: string
-    changeTextAreaValue: (message: string) => void;
-}
-export const Profile = (props:PostsType) => {
+
+export const Profile = () => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts addPost={props.addPost} posts={props.posts.postsData} postMessage={props.postMessage} changeTextAreaValue={props.changeTextAreaValue}  />
+            <MyPostsContainer  />
         </div>
     );
 };

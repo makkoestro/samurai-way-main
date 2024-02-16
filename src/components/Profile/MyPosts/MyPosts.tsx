@@ -2,35 +2,29 @@ import React, {ChangeEvent, ChangeEventHandler, LegacyRef, RefObject, useRef} fr
 import classes from './MyPosts.module.css'
 import Post from "../Post/Post";
 import {PropsPostsType} from "../../../App";
-import {PostsType} from "../Profile";
+import {ActionType} from "../../../redux/state";
+import {log} from "util";
+import {MyPostsPropsType} from "./MyPostsContainer";
 
 
-type MyPostsType = {
-    addPost: () => void;
-    posts: PropsPostsType[]
-    postMessage: string
-    changeTextAreaValue: (message: string) => void;
-}
-const MyPosts = (props: MyPostsType) => {
+
+const MyPosts = (props: MyPostsPropsType) => {
 
 
     const posts = props.posts.map(p => {
         return <Post key={p.id} message={p.message} likesCount={p.likesCount}/>
     })
-    let newPostElem = useRef<HTMLTextAreaElement>(null)
-    const addPost = () => {
-        if (newPostElem.current !== null) {
-            props.addPost()
-        }
+    let addPost = () => {
+        props.addPost()
     }
     const changeTextAreaValueHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
-        props.changeTextAreaValue(e.currentTarget.value)
+        props.changeNewPostText(e.currentTarget.value)
     }
     return (
         <div>
             <div className={classes.posts}>
                 <h3>My posts</h3>
-                <textarea  onChange={changeTextAreaValueHandler} value={props.postMessage} ref={newPostElem}></textarea>
+                <textarea placeholder={'Type new post'}  onChange={changeTextAreaValueHandler} value={props.postMessages}></textarea>
                 <button onClick={addPost}>add post</button>
                 {posts}
             </div>

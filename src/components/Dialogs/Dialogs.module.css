@@ -12,11 +12,19 @@
 
 .active {
     color: gold;
-    font-size: 20px;
 }
-.item {
-    color:white;
-}
+
 .message {
     color: orangered;
 }
+.item:hover {
+    color: #00ffc1;
+}
+li > a {
+    color:white;
+}
+li > a:hover {
+    color: #00ffc1;
+
+}
+
