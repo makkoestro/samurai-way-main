@@ -10,6 +10,10 @@ import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import {ActionType} from "./redux/state";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import { UsersContainer} from "./components/Users/UsersContainer";
+import {UserType} from "./redux/users-reducer";
+import {log} from "util";
+import {store} from "./redux/store";
 
 export type DialogsPropsType = {
     id: number; name: string;
@@ -26,6 +30,9 @@ export type DialogsPageType = {
 export type ProfilePageType = {
     postsData: PropsPostsType[]
     message: string
+}
+export type UsersPageType = {
+    users: UserType[]
 }
 export type stateType = {
     profilePage: {
@@ -48,6 +55,7 @@ export type StatePropsType = {
 }
 
 function App() {
+
     return (
         <div className="app-wrapper">
             <Header/>
@@ -57,6 +65,7 @@ function App() {
                 <Route path={'/profile'} render={() => <Profile/>}/>
                 <Route path={'/dialogs'}
                        render={() => <DialogsContainer />}/>
+                <Route path={'/users'} render={() => <UsersContainer/>}/>
                 <Route path={'/news'} component={News}/>
                 <Route path={'/music'} component={Music}/>
                 <Route path={'/settings'} component={Settings}/>

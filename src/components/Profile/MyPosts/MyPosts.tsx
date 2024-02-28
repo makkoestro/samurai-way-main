@@ -7,8 +7,8 @@ import {log} from "util";
 import {MyPostsPropsType} from "./MyPostsContainer";
 
 
-
 const MyPosts = (props: MyPostsPropsType) => {
+
 
 
     const posts = props.posts.map(p => {
@@ -17,14 +17,15 @@ const MyPosts = (props: MyPostsPropsType) => {
     let addPost = () => {
         props.addPost()
     }
-    const changeTextAreaValueHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
+    const changeTextAreaValueHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         props.changeNewPostText(e.currentTarget.value)
     }
     return (
         <div>
             <div className={classes.posts}>
                 <h3>My posts</h3>
-                <textarea placeholder={'Type new post'}  onChange={changeTextAreaValueHandler} value={props.postMessages}></textarea>
+                <textarea placeholder={'Type new post'} onChange={changeTextAreaValueHandler}
+                          value={props.postMessages}></textarea>
                 <button onClick={addPost}>add post</button>
                 {posts}
             </div>
