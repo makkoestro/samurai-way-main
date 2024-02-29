@@ -16,3 +16,10 @@
     width: 100%;
     object-fit: cover;
 }
+.isSelected {
+    font-size: 30px;
+    color: silver;
+}
+.pageStyle {
+    font-size: 20px;
+}

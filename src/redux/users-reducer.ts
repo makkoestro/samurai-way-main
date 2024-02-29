@@ -1,6 +1,6 @@
 import {DialogsPageType, DialogsPropsType, MessagesPropsType} from "../App";
 import {ActionType} from "./state";
-type UserReducerActionType = ChangeStatusAC | SetUsersACType
+type UserReducerActionType = ChangeStatusAC | SetUsersACType | SetCurrentPageACType | setTotalCountAcType
 
 // type initialStateType = typeof initialState
 // const initialState = {
@@ -39,16 +39,24 @@ export type UserType = {
 }
 type initialStateType = typeof initialState
 const initialState = {
-    users:[ ] as UserType[]
+    users:[ ] as UserType[],
+    pageSize: 5,
+    totalCount: 19,
+    currentPage: 1
 }
 
 const usersReducer = (state:initialStateType = initialState, action: UserReducerActionType):initialStateType => {
+
 
     switch (action.type) {
         case "CHANGE-FOLLOW-STATUS":
             return {...state, users: state.users.map(el => el.id === action.userId ? {...el, followed: !el.followed} : el)}
         case "SET-USERS":
             return {...state, users: [...action.users]}
+        case "SET-CURRENT-PAGE":
+            return {...state, currentPage: action.currentPage, users: [...state.users]}
+        case "SET-TOTAL-COUNT":
+            return {...state, totalCount: action.count}
         default:
             return state
     }
@@ -67,6 +75,20 @@ export const SetUsersAC = (users: UserType[]) => {
         type: 'SET-USERS',
         users:users
 
+    } as const
+}
+type SetCurrentPageACType = ReturnType<typeof SetCurrentPageAC>
+export const SetCurrentPageAC = (currentPage:number) => {
+    return {
+        type: 'SET-CURRENT-PAGE',
+        currentPage: currentPage
+    } as const
+}
+type setTotalCountAcType = ReturnType<typeof setTotalCountAC>
+export const setTotalCountAC = (count:number) => {
+    return {
+        type: 'SET-TOTAL-COUNT',
+        count:count
     } as const
 }
 export default usersReducer

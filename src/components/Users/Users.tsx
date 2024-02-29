@@ -1,45 +1,50 @@
 import React from 'react';
-import {UsersPropsType} from "./UsersContainer";
-import s from './users.module.css'
-import axios from "axios";
-import defaultPhoto from '../../assets/img/sonic.png'
+import s from "./users.module.css";
+import defaultPhoto from "../../assets/img/sonic.png";
+import {UserType} from "../../redux/users-reducer";
+type PropsType = {
+    users: UserType[]
+    totalCount:number
+    pageSize:number
+    currentPage:number
+    onPageChanged: (p:number) => void
+    onChangeStatus: (id:number) => void
+}
 
-export const Users: React.FC<UsersPropsType> = (props) => {
-    let getUsers =  () => {
-        let users =   axios.get('https://social-network.samuraijs.com/api/1.0/users').then(res => res.data.items).then(users => {
-            props.setUsers(users)
-        })
+export const Users = (props:PropsType) => {
+
+    let pagesCount = Math.ceil(props.totalCount / props.pageSize)
+    let pages = []
+    for (let i = 1;i <= pagesCount;i++) {
+        if (pages.length < 10) {
+            pages.push(i)
+        }
 
     }
-
-
-    // if (props.users.length == 0) {
-    //     axios.get('https://social-network.samuraijs.com/api/1.0/users').then(res => {
-    //         console.log(res.data.items)
-    //         props.setUsers(res.data.items)
-    //     } )
-    // }
-
-
-
-
+    const onPageChangedHandler = (p:number) => {
+        props.onPageChanged(p)
+    }
     return (
         <div >
-            <button onClick={getUsers}>GET USERS</button>
+            <div>
+                {pages.map(p => <span onClick={() => onPageChangedHandler(p)} className={props.currentPage === p ? `${s.pageStyle} ${s.isSelected}` : s.pageStyle}>{p}</span>)}
+            </div>
+
+            <div></div>
             {props.users.map(u => <div key={u.id} className={s.userContainer}>
                 <div>
                     <div>
-                         <img className={s.photo} src={u.photos.small ? u.photos.small : defaultPhoto} alt=""/>
+                        <img className={s.photo} src={u.photos.small ? u.photos.small : defaultPhoto} alt=""/>
                     </div>
-                   <div>
-                        <button onClick={() => props.changeStatus(u.id)}>{u.followed ? 'UNFOLLOW' : 'FOLLOW'}</button>
-                   </div>
+                    <div>
+                        <button style={u.followed ? {color: 'red'} : {color: 'green'}} onClick={() => props.onChangeStatus(u.id)}>{u.followed ? 'UNFOLLOW' : 'FOLLOW'}</button>
+                    </div>
 
                 </div>
                 <div className={s.userInfo}>
                     <div>
                         <div>{u.name}</div>
-                    <div>{'u.description'}</div>
+                        <div>{'u.description'}</div>
                     </div>
                     <div>
                         <div>{'u.location.country'}</div>
