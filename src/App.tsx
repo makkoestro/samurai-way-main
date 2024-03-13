@@ -2,18 +2,19 @@ import React from 'react';
 import './App.css';
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
-import {Profile} from "./components/Profile/Profile";
-import {Dialogs} from "./components/Dialogs/Dialogs";
+
 import {Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import {ActionType} from "./redux/state";
+import {ActionType} from "./redux/profile-reducer";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import { UsersContainer} from "./components/Users/UsersContainer";
 import {UserType} from "./redux/users-reducer";
-import {log} from "util";
-import {store} from "./redux/store";
+
+import ProfileContainer from "./components/Profile/ProfileContainer";
+import {ProfileUserType} from "./redux/profile-reducer";
+import HeaderComponent from "./components/Header/HeaderContainer";
 
 export type DialogsPropsType = {
     id: number; name: string;
@@ -29,7 +30,8 @@ export type DialogsPageType = {
 }
 export type ProfilePageType = {
     postsData: PropsPostsType[]
-    message: string
+    message: string,
+    profile: ProfileUserType
 }
 export type UsersPageType = {
     users: UserType[]
@@ -58,11 +60,11 @@ function App() {
 
     return (
         <div className="app-wrapper">
-            <Header/>
+            <HeaderComponent/>
             <Navbar/>
             <main
                 className={'app-wrapper-main'}>     {/*что бы применялись повторяющиеся стили вне зависимости от контента*/}
-                <Route path={'/profile'} render={() => <Profile/>}/>
+                <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
                 <Route path={'/dialogs'}
                        render={() => <DialogsContainer />}/>
                 <Route path={'/users'} render={() => <UsersContainer/>}/>

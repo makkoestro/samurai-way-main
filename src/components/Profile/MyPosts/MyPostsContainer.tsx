@@ -2,7 +2,6 @@ import React, {ChangeEvent, ChangeEventHandler, LegacyRef, RefObject, useRef} fr
 import classes from './MyPosts.module.css'
 import Post from "../Post/Post";
 import {PropsPostsType} from "../../../App";
-import {ActionType} from "../../../redux/state";
 import {AddPostAC, ChangeTextareaValueAC} from "../../../redux/profile-reducer";
 import MyPosts from "./MyPosts";
 import {AppRootStateType, StoreStateType} from "../../../redux/store";

@@ -1,5 +1,5 @@
 import {DialogsPageType, DialogsPropsType, MessagesPropsType} from "../App";
-import {ActionType} from "./state";
+import {ActionType} from "./profile-reducer";
 
 export type DialogsActionType = ChangeDialogMessageActionType | AddDialogMessageActionType
 export type ChangeDialogMessageActionType = ReturnType<typeof ChangeDialogMessageValueAC>

@@ -1,24 +1,31 @@
 import React from 'react';
 import classes from "./ProfileInfo.module.css";
+import {ProfileUserType} from "../../../redux/profile-reducer";
+import {Preloader} from "../../../common/Preloader";
+type ProfileInfoPropsType = {
+    profile: ProfileUserType
+}
 
-
-const ProfileInfo = () => {
-
-    return (
+const ProfileInfo = ({profile}:ProfileInfoPropsType) => {
+    return !profile
+    ?  <Preloader/>
+    : (
         <div>
             <div className={classes.intro}>
                 <img className={classes.img}
-                     src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/1-colorful-long-haired-cat-art-peggy-collins.jpg"
+                     // src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/1-colorful-long-haired-cat-art-peggy-collins.jpg"
+                     src={profile.photos.large}
                      alt=""/>
                 <div>
                     <ul>
                         <li>
-                            <h3 className={classes.ProfileName}>Lex Murza</h3>
+                           <h3 className={classes.ProfileName}>{profile.fullName}</h3>
                         </li>
-                        <li>Date of birth: 19 May</li>
-                        <li>City: Odessa</li>
-                        <li>Education: ONMA</li>
-                        <li>Web-site: no</li>
+                        <li></li>
+                        <li>{profile.aboutMe}</li>
+                        <li></li>
+                        <li><a href={`https://${profile.contacts.vk}`}> {profile.contacts.vk}</a></li>
+                        <li><a href={`https://${profile.contacts.instagram}`}> {profile.contacts.instagram}</a></li>
                     </ul>
                 </div>
             </div>

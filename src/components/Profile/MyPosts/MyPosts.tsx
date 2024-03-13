@@ -1,8 +1,6 @@
 import React, {ChangeEvent, ChangeEventHandler, LegacyRef, RefObject, useRef} from 'react';
 import classes from './MyPosts.module.css'
 import Post from "../Post/Post";
-import {PropsPostsType} from "../../../App";
-import {ActionType} from "../../../redux/state";
 import {log} from "util";
 import {MyPostsPropsType} from "./MyPostsContainer";
 
