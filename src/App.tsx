@@ -15,6 +15,7 @@ import {UserType} from "./redux/users-reducer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import {ProfileUserType} from "./redux/profile-reducer";
 import HeaderComponent from "./components/Header/HeaderContainer";
+import {Login} from "./components/Login/Login";
 
 export type DialogsPropsType = {
     id: number; name: string;
@@ -71,6 +72,7 @@ function App() {
                 <Route path={'/news'} component={News}/>
                 <Route path={'/music'} component={Music}/>
                 <Route path={'/settings'} component={Settings}/>
+                <Route path={'login'} component={Login}/>
             </main>
         </div>
     );

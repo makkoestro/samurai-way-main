@@ -1,4 +1,6 @@
 import {DialogsPageType, DialogsPropsType, MessagesPropsType} from "../App";
+import {Dispatch} from "redux";
+import {userApi} from "../api/api";
 
 
 type UserReducerActionType = ChangeStatusAC
@@ -6,6 +8,7 @@ type UserReducerActionType = ChangeStatusAC
     | SetCurrentPageACType
     | setTotalCountAcType
     | setIsFetchingACType
+    | setFollowingInProgressACType
 
 // type initialStateType = typeof initialState
 // const initialState = {
@@ -28,19 +31,8 @@ export type UserType = {
     },
     "status": null,
     "followed": boolean
-    // id:number,
-    // name: string,
-    // description:string
-    // photos: {
-    //     small: null,
-    //     large: null
-    // },
-    // // photoUrl: string
-    // location: {
-    //     country: string
-    //     city: string
-    // }
-    // followed:boolean
+    followingInProgress: boolean
+
 }
 type initialStateType = typeof initialState
 const initialState = {
@@ -48,7 +40,8 @@ const initialState = {
     pageSize: 5,
     totalCount: 19,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+
 }
 
 const usersReducer = (state: initialStateType = initialState, action: UserReducerActionType): initialStateType => {
@@ -68,12 +61,18 @@ const usersReducer = (state: initialStateType = initialState, action: UserReduce
             return {...state, totalCount: action.count}
         case "SET-IS-FETCHING":
             return {...state, isFetching: action.isFetching}
+        case "SET-FOLLOWING-STATUS":
+            return {
+                ...state,
+                users: state.users.map(u => u.id === action.id ? {...u, followingInProgress: action.isFollow} : u)
+            }
+
         default:
             return state
     }
 }
 type ChangeStatusAC = ReturnType<typeof ChangeStatusAC>
-export const ChangeStatusAC = (userId: number, isFollowed:boolean) => {
+export const ChangeStatusAC = (userId: number, isFollowed: boolean) => {
 
     return {
         type: 'CHANGE-FOLLOW-STATUS',
@@ -109,5 +108,45 @@ export const setIsFetchingAC = (isFetching: boolean) => {
         type: 'SET-IS-FETCHING',
         isFetching
     } as const
+}
+type setFollowingInProgressACType = ReturnType<typeof setFollowingInProgressAC>
+export const setFollowingInProgressAC = (isFollow: boolean, id: number) => {
+    return {
+        type: 'SET-FOLLOWING-STATUS',
+        isFollow, id
+    } as const
+}
+export const SetUsersTC = (pageSize: number, currentPage: number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(setIsFetchingAC(true))
+        userApi.getUsers(pageSize, currentPage).then(res => res.data).then(data => {
+            dispatch(SetCurrentPageAC(currentPage))
+            dispatch(setIsFetchingAC(false))
+            dispatch(SetUsersAC(data.items))
+            dispatch(setTotalCountAC(data.totalCount))
+
+        })
+    }
+}
+export const setFollowStatusTC = (userId:number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(setFollowingInProgressAC(true, userId))
+        userApi.setFollowStatus(userId)
+            .then(res => {
+                dispatch(ChangeStatusAC(userId,true ))
+                dispatch(setFollowingInProgressAC(false, userId))
+            })
+    }
+}
+export const setUnfollowStatusTC = (userId:number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(setFollowingInProgressAC(true, userId))
+        userApi.setUnfollowStatus(userId)
+            .then(res => {
+                dispatch(ChangeStatusAC(userId,false ))
+                dispatch(setFollowingInProgressAC(false, userId))
+            })
+    }
+
 }
 export default usersReducer

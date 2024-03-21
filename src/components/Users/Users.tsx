@@ -42,7 +42,7 @@ export const Users = (props:PropsType) => {
 
                     </div>
                     <div>
-                        <button style={u.followed ? {color: 'red'} : {color: 'green'}} onClick={ u.followed ? () => props.setUnfollowStatus(u.id) : () => props.onFollowStatus(u.id)}>{u.followed ? 'UNFOLLOW' : 'FOLLOW'}</button>
+                        <button disabled={u.followingInProgress} style={u.followed ? {color: 'red'} : {color: 'green'}} onClick={ u.followed ? () => props.setUnfollowStatus(u.id) : () => props.onFollowStatus(u.id)}>{u.followed ? 'UNFOLLOW' : 'FOLLOW'}</button>
                     </div>
 
                 </div>

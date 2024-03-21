@@ -1,5 +1,7 @@
 import {ProfilePageType, PropsPostsType} from "../App";
 import {AddDialogMessageActionType, ChangeDialogMessageActionType} from "./dialogs-reducer";
+import {profileApi} from "../api/api";
+import {Dispatch} from "redux";
 
 export type ActionType =
     AddPostsActionType | ChangeTextareaValueActionType |
@@ -7,6 +9,27 @@ export type ActionType =
 export type AddPostsActionType = ReturnType<typeof AddPostAC>
 export type ChangeTextareaValueActionType = ReturnType<typeof ChangeTextareaValueAC>
 export type ProfilePageActionType = AddPostsActionType | ChangeTextareaValueActionType
+export type ProfileUserResponseType = {
+    "aboutMe": string,
+    "contacts": {
+        "facebook": string,
+        "website": null | string,
+        "vk": string,
+        "twitter": string,
+        "instagram": string,
+        "youtube": null | string,
+        "github": string,
+        "mainLink": null | string
+    },
+    "lookingForAJob": boolean,
+    "lookingForAJobDescription": string,
+    "fullName": string,
+    "userId": number,
+    "photos": {
+        "small": string,
+        "large": string
+    }
+}
 export type ProfileUserType = null |  {
     "aboutMe": string,
     "contacts": {
@@ -76,5 +99,13 @@ export const SetUserProfileAC = (profile:any) => {
         type: 'SET-USER-PROFILE',
         profile
     } as const
+}
+export const SetUserProfileTC = (userId:string) => {
+    return (dispatch: Dispatch) => {
+        profileApi.getProfileData(userId).then(res => {
+            console.log(res.data)
+            dispatch(SetUserProfileAC(res.data))
+        })
+    }
 }
 export default profileReducer
