@@ -13,6 +13,7 @@ import axios from "axios";
 import {Users} from "./Users";
 import {Preloader} from "../../common/Preloader";
 import {userApi} from "../../api/api";
+import {withAuthRedirect} from "../../hoc/WithAuthRedirect";
 
 
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
@@ -104,4 +105,5 @@ const mapDispatchToProps = (dispatch: AppThunkDispatch) => {
 //     setFollowingInProgress: setFollowingInProgressAC,
 //     SetUsersTC: SetUsersTC
 // }
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
+const AuthRedirectComponent = withAuthRedirect(UsersAPIComponent)
+export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)

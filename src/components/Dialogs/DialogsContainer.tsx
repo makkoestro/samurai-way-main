@@ -5,12 +5,27 @@ import {AddDialogMessageAC, ChangeDialogMessageValueAC} from "../../redux/dialog
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
+import React from "react";
+import {Redirect} from "react-router-dom";
+import {Profile} from "../Profile/Profile";
+import {withAuthRedirect} from "../../hoc/WithAuthRedirect";
 
 
 
 export type DialogAndMessagesPropsType = {
 
 }
+
+// class DialogsWrapper extends React.Component {
+//
+//     componentDidMount() {
+//         c
+//     }
+//     render() {
+//
+//        return  <Dialogs/>
+//     }
+// }
 // export const DialogsContainer:React.FC<DialogAndMessagesPropsType> = () => {
 //
 //
@@ -28,16 +43,7 @@ export type DialogAndMessagesPropsType = {
 //             }
 //         </StoreContext.Consumer>
 //
-//         // <div className={classes.dialogWrapper}>
-//         //     <ul className={'dialogItems'}>
-//         //         {dialogs}
-//         //     </ul>
-//         //     <div className={'messages'}>
-//         //         {messages}
-//         //         <textarea  onChange={ChangeDialogMessageHandler} value={dialogsPage.dialogMessage} ref={newPostEl}></textarea>
-//         //         <button onClick={addDialogMessageHandler}>Add</button>
-//         //     </div>
-//         // </div>
+//
 //     );
 // };
 type mapStateToPropsType = {
@@ -63,4 +69,7 @@ const mapDispatchToProps = (dispatch:Dispatch):mapDispatchToPropsType => {
         }
     }
 }
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps) (Dialogs)
+const AuthRedirectComponent = withAuthRedirect(Dialogs)
+
+ export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps) (AuthRedirectComponent)
+
