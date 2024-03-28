@@ -6,6 +6,7 @@ import {SetUserProfileAC, SetUserProfileTC} from "../../redux/profile-reducer";
 import {withRouter, RouteComponentProps, Redirect} from "react-router-dom";
 import {profileApi} from "../../api/api";
 import {withAuthRedirect} from "../../hoc/WithAuthRedirect";
+import {compose} from "redux";
 
 type PropsType = MapStateToPropsType & MapDispatchToPropsType
 type MapDispatchToPropsType = ReturnType<typeof MapDispatchToProps>
@@ -45,5 +46,9 @@ const MapDispatchToProps = (dispatch: AppThunkDispatch) => {
     }
 }
 
-const WithUrlDataContainerComponent = withRouter(ProfileContainer)
-export default withAuthRedirect(connect(MapStateToProps, MapDispatchToProps)(WithUrlDataContainerComponent))
+
+export default compose<React.ComponentType>(
+    connect(MapStateToProps, MapDispatchToProps),
+    withRouter,
+    withAuthRedirect,
+)(ProfileContainer)

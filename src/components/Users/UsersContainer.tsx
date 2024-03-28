@@ -14,6 +14,7 @@ import {Users} from "./Users";
 import {Preloader} from "../../common/Preloader";
 import {userApi} from "../../api/api";
 import {withAuthRedirect} from "../../hoc/WithAuthRedirect";
+import {compose} from "redux";
 
 
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
@@ -105,5 +106,8 @@ const mapDispatchToProps = (dispatch: AppThunkDispatch) => {
 //     setFollowingInProgress: setFollowingInProgressAC,
 //     SetUsersTC: SetUsersTC
 // }
-const AuthRedirectComponent = withAuthRedirect(UsersAPIComponent)
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
+
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(UsersAPIComponent)

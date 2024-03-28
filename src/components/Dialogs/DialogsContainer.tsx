@@ -4,7 +4,7 @@ import {DialogsPageType} from "../../App";
 import {AddDialogMessageAC, ChangeDialogMessageValueAC} from "../../redux/dialogs-reducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
-import {Dispatch} from "redux";
+import {compose, Dispatch} from "redux";
 import React from "react";
 import {Redirect} from "react-router-dom";
 import {Profile} from "../Profile/Profile";
@@ -26,7 +26,7 @@ export type DialogAndMessagesPropsType = {
 //        return  <Dialogs/>
 //     }
 // }
-// export const DialogsContainer:React.FC<DialogAndMessagesPropsType> = () => {
+//  const DialogsContainer:React.FC<DialogAndMessagesPropsType> = () => {
 //
 //
 //     return (
@@ -69,7 +69,9 @@ const mapDispatchToProps = (dispatch:Dispatch):mapDispatchToPropsType => {
         }
     }
 }
-const AuthRedirectComponent = withAuthRedirect(Dialogs)
 
- export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps) (AuthRedirectComponent)
+ export default compose<React.ComponentType>(
+    connect(mapStateToProps, mapDispatchToProps),
+     withAuthRedirect
+)(Dialogs)
 

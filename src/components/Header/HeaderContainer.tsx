@@ -1,9 +1,10 @@
 import React from 'react';
 import Header from "./Header";
 import {AppThunkDispatch, store} from "../../redux/store";
-import {setAuthUserDataAC, setAuthUserDataTC} from "../../redux/auth-reducer";
+import {setAuthUserDataAC} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
 import {authApi} from "../../api/api";
+import {setAuthUserDataTC} from "../../redux/set-auth-user-data-t-c";
 class HeaderComponent extends React.Component<HeaderContainerPropsType>{
     componentDidMount() {
         this.props.setAuthUserData()

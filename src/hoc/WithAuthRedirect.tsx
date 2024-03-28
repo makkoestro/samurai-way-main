@@ -2,10 +2,10 @@ import React, {ComponentType} from 'react';
 import {connect} from "react-redux";
 import {AppRootStateType} from "../redux/store";
 import {Redirect} from "react-router-dom";
-type mapDispatchToPropsType= {
+type mapStateToPropsType= {
     isAuth:boolean
 }
-const mapDispatchToProps  = (state:AppRootStateType):mapDispatchToPropsType => {
+const mapStateToProps  = (state:AppRootStateType):mapStateToPropsType => {
     return {
         isAuth: state.auth.isAuth,
     }
@@ -13,14 +13,13 @@ const mapDispatchToProps  = (state:AppRootStateType):mapDispatchToPropsType => {
 
 export function withAuthRedirect <T>(Component:ComponentType<T>) {
 
-    const RedirectComponent = (props:mapDispatchToPropsType) => {
-        console.log(props)
+    const RedirectComponent = (props:mapStateToPropsType) => {
         let {isAuth, ...restProps}=props
         return !isAuth
             ? <Redirect to={'/login'}/>
             :  <Component {...restProps as T}/>
     }
-    let connectedRedirectComponent = connect(mapDispatchToProps)(RedirectComponent)
-    return connectedRedirectComponent
+
+    return connect(mapStateToProps)(RedirectComponent)
 }
 
