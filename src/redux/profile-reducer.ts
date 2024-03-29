@@ -5,7 +5,7 @@ import {Dispatch} from "redux";
 
 export type ActionType =
     AddPostsActionType | ChangeTextareaValueActionType |
-    AddDialogMessageActionType | ChangeDialogMessageActionType | SetUserProfileACType
+    AddDialogMessageActionType | ChangeDialogMessageActionType | SetUserProfileACType | GetProfileStatusACType
 export type AddPostsActionType = ReturnType<typeof AddPostAC>
 export type ChangeTextareaValueActionType = ReturnType<typeof ChangeTextareaValueAC>
 export type ProfilePageActionType = AddPostsActionType | ChangeTextareaValueActionType
@@ -30,37 +30,19 @@ export type ProfileUserResponseType = {
         "large": string
     }
 }
-export type ProfileUserType = null |  {
-    "aboutMe": string,
-    "contacts": {
-        "facebook": string,
-        "website": null | string,
-        "vk": string,
-        "twitter": string,
-        "instagram": string,
-        "youtube": null | string,
-        "github": string,
-        "mainLink": null | string
-    },
-    "lookingForAJob": boolean,
-    "lookingForAJobDescription": string,
-    "fullName": string,
-    "userId": number,
-    "photos": {
-        "small": string,
-        "large": string
-    }
-}
+export type ProfileUserType = null |  ProfileUserResponseType
 type initialStateType = {
     postsData: PropsPostsType[]
     message: string
     profile: null |  ProfileUserType
+    status: string
 
 }
 const initialState:ProfilePageType = {
     postsData: [],
     message: '',
-    profile: null
+    profile: null,
+    status: ''
 }
 
 const profileReducer = (state:initialStateType = initialState, action: ActionType):initialStateType => {
@@ -77,6 +59,8 @@ const profileReducer = (state:initialStateType = initialState, action: ActionTyp
             return {...state, message: action.message}
         case "SET-USER-PROFILE":
             return {...state, profile: {...action.profile}}
+        case "SET-PROFILE-STATUS":
+            return {...state, status: action.status}
 
         default: return state
     }
@@ -100,12 +84,44 @@ export const SetUserProfileAC = (profile:any) => {
         profile
     } as const
 }
+export type GetProfileStatusACType = ReturnType<typeof GetProfileStatusAC>
+export const GetProfileStatusAC = (status:string) => {
+    return {
+        type: 'SET-PROFILE-STATUS',
+        status
+    } as const
+}
+export const UpdProfileStatusAC = (status:string) => {
+    return {
+        type: 'SET-PROFILE-STATUS',
+        status
+    } as const
+}
 export const SetUserProfileTC = (userId:string) => {
     return (dispatch: Dispatch) => {
         profileApi.getProfileData(userId).then(res => {
-            console.log(res.data)
             dispatch(SetUserProfileAC(res.data))
         })
     }
 }
+export const getProfileStatusTC = (userId:string) => {
+    return (dispatch: Dispatch) => {
+        profileApi.getStatus(userId).then(res => {
+            console.log(res.data)
+            dispatch(GetProfileStatusAC(res.data))
+        })
+    }
+}
+export const UpdProfileStatusTC = (status:string) => {
+    return (dispatch: Dispatch) => {
+        profileApi.updStatus(status).then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(GetProfileStatusAC(status))
+            }
+            console.log(res.data)
+
+        })
+    }
+}
+
 export default profileReducer

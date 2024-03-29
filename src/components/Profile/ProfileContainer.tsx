@@ -2,7 +2,7 @@ import React from 'react';
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
 import {AppThunkDispatch, store} from "../../redux/store";
-import {SetUserProfileAC, SetUserProfileTC} from "../../redux/profile-reducer";
+import {getProfileStatusTC, SetUserProfileAC, SetUserProfileTC, UpdProfileStatusTC} from "../../redux/profile-reducer";
 import {withRouter, RouteComponentProps, Redirect} from "react-router-dom";
 import {profileApi} from "../../api/api";
 import {withAuthRedirect} from "../../hoc/WithAuthRedirect";
@@ -19,13 +19,14 @@ class ProfileContainer extends React.Component<ProfileContainerPropsTYpe> {
     componentDidMount() {
         console.log(this.props)
         let userId = this.props.match.params.userId
-        if (!userId) userId = '2'
+        if (!userId) userId = '30538'
         this.props.SetUserProfile(userId)
+        this.props.getProfileStatus(userId)
     }
 
     render() {
 
-        return <Profile profile={this.props.profile}/>;
+        return <Profile updStatus={this.props.updProfileStatus} profile={this.props.profile} status={this.props.status}/>;
     }
 }
 
@@ -36,13 +37,16 @@ type PathParamsType = {
 const MapStateToProps = () => {
     return {
         profile: store.getState().profilePage.profile,
+        status: store.getState().profilePage.status
     }
 
 }
 
 const MapDispatchToProps = (dispatch: AppThunkDispatch) => {
     return {
-        SetUserProfile: (userId: string) => dispatch(SetUserProfileTC(userId))
+        SetUserProfile: (userId: string) => dispatch(SetUserProfileTC(userId)),
+        getProfileStatus: (userId:string) => dispatch(getProfileStatusTC(userId)),
+        updProfileStatus: (status:string) => dispatch(UpdProfileStatusTC(status))
     }
 }
 

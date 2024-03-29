@@ -5,9 +5,11 @@ import {Preloader} from "../../../common/Preloader";
 import ProfileStatus from "./ProfileStatus";
 type ProfileInfoPropsType = {
     profile: ProfileUserType
+    status:string
+    updStatus: (status: string) => void;
 }
 
-const ProfileInfo = ({profile}:ProfileInfoPropsType) => {
+const ProfileInfo = ({profile, status, updStatus}:ProfileInfoPropsType) => {
     return !profile
     ?  <Preloader/>
     : (
@@ -24,7 +26,7 @@ const ProfileInfo = ({profile}:ProfileInfoPropsType) => {
                         </li>
                         <li></li>
                         {/*<li>{profile.aboutMe}</li>*/}
-                        <li><ProfileStatus status={profile.aboutMe}/></li>
+                        <li><ProfileStatus updStatus={updStatus} status={status}/></li>
                         <li></li>
                         <li><a href={`https://${profile.contacts.vk}`}> {profile.contacts.vk}</a></li>
                         <li><a href={`https://${profile.contacts.instagram}`}> {profile.contacts.instagram}</a></li>

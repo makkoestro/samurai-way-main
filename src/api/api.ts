@@ -28,5 +28,16 @@ export const authApi = {
 export const profileApi = {
     getProfileData(userId:string) {
         return instance.get<ProfileUserResponseType>(`profile/${userId}`)
+    },
+    getStatus(userId:string) {
+        return instance.get<any>(`profile/status/${userId}`)
+    },
+    updStatus(status:string) {
+        return instance.put<ResponseType>(`profile/status/`, {status})
     }
+}
+type ResponseType<T = {}> = {
+    resultCode: number
+    messages: string[],
+    data:T
 }

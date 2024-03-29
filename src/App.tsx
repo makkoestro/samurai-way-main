@@ -34,6 +34,7 @@ export type ProfilePageType = {
     postsData: PropsPostsType[]
     message: string,
     profile: ProfileUserType
+    status:string
 }
 export type UsersPageType = {
     users: UserType[]
@@ -53,10 +54,7 @@ export type PropsPostsType = {
 }
 
 
-export type StatePropsType = {
-    dispatch: (action: ActionType) => void;
-    state: stateType
-}
+
 
 function App() {
 
