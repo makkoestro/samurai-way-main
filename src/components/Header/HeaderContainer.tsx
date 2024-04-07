@@ -4,7 +4,7 @@ import {AppThunkDispatch, store} from "../../redux/store";
 import {setAuthUserDataAC} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
 import {authApi} from "../../api/api";
-import {setAuthUserDataTC} from "../../redux/set-auth-user-data-t-c";
+import {logOutTC, setAuthUserDataTC} from "../../redux/set-auth-user-data-t-c";
 class HeaderComponent extends React.Component<HeaderContainerPropsType>{
     componentDidMount() {
         this.props.setAuthUserData()
@@ -14,7 +14,7 @@ class HeaderComponent extends React.Component<HeaderContainerPropsType>{
     }
 
 };
-type HeaderContainerPropsType = mapStateToPropsType & mapDispatchToPropsType
+export type HeaderContainerPropsType = mapStateToPropsType & mapDispatchToPropsType
 export type mapStateToPropsType = ReturnType<typeof mapStateToProps>
 const mapStateToProps = () => {
     return {
@@ -25,7 +25,8 @@ const mapStateToProps = () => {
 type mapDispatchToPropsType = ReturnType<typeof mapDispatchToProps>
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => {
     return {
-        setAuthUserData: () => dispatch(setAuthUserDataTC())
+        setAuthUserData: () => dispatch(setAuthUserDataTC()),
+        logout: () => dispatch(logOutTC())
     }
 }
 

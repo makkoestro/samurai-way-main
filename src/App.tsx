@@ -15,7 +15,7 @@ import {UserType} from "./redux/users-reducer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import {ProfileUserType} from "./redux/profile-reducer";
 import HeaderComponent from "./components/Header/HeaderContainer";
-import {Login} from "./components/Login/Login";
+import LoginContainer from "./components/Login/Login";
 import NewsContainer from "./components/News/NewsContainer";
 
 export type DialogsPropsType = {
@@ -32,7 +32,6 @@ export type DialogsPageType = {
 }
 export type ProfilePageType = {
     postsData: PropsPostsType[]
-    message: string,
     profile: ProfileUserType
     status:string
 }
@@ -71,7 +70,7 @@ function App() {
                 <Route path={'/news'} component={NewsContainer}/>
                 <Route path={'/music'} component={Music}/>
                 <Route path={'/settings'} component={Settings}/>
-                <Route path={'/login'} component={Login}/>
+                <Route path={'/login'} render={() => <LoginContainer/>}/>
             </main>
         </div>
     );

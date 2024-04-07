@@ -1,8 +1,8 @@
 import {DialogsPageType, DialogsPropsType, MessagesPropsType} from "../App";
 import {ActionType} from "./profile-reducer";
 
-export type DialogsActionType = ChangeDialogMessageActionType | AddDialogMessageActionType
-export type ChangeDialogMessageActionType = ReturnType<typeof ChangeDialogMessageValueAC>
+export type DialogsActionType =  AddDialogMessageActionType
+
 
 export type AddDialogMessageActionType = ReturnType<typeof AddDialogMessageAC>
 
@@ -29,32 +29,24 @@ const initialState = {
         {id: 5, name: 'Radu'},
     ] as DialogsType[],
     messagesData: [] as MessagesType[],
-    dialogMessage: ''
 }
 
 const dialogReducer = (state:initialStateType = initialState, action: ActionType):initialStateType => {
     switch (action.type) {
-        case "CHANGE-DIALOG-MESSAGE-VALUE":
-            return {...state, dialogMessage: action.message}
         case "ADD-DIALOG-MESSAGE":
             let newDialogMessage = {
-                id: 1, message: state.dialogMessage
+                id: 1, message: action.message
             }
-            return {...state, messagesData: [...state.messagesData, newDialogMessage], dialogMessage: ''}
+            return {...state, messagesData: [...state.messagesData, newDialogMessage]}
         default:
             return state
     }
 }
-export const ChangeDialogMessageValueAC = (message: string) => {
 
+export const AddDialogMessageAC = (message:string) => {
     return {
-        type: 'CHANGE-DIALOG-MESSAGE-VALUE',
-        message: message
-    } as const
-}
-export const AddDialogMessageAC = () => {
-    return {
-        type: 'ADD-DIALOG-MESSAGE'
+        type: 'ADD-DIALOG-MESSAGE',
+        message
     } as const
 }
 export default dialogReducer

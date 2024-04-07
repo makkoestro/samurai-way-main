@@ -1,14 +1,14 @@
 import {ProfilePageType, PropsPostsType} from "../App";
-import {AddDialogMessageActionType, ChangeDialogMessageActionType} from "./dialogs-reducer";
+import {AddDialogMessageActionType} from "./dialogs-reducer";
 import {profileApi} from "../api/api";
 import {Dispatch} from "redux";
 
 export type ActionType =
-    AddPostsActionType | ChangeTextareaValueActionType |
-    AddDialogMessageActionType | ChangeDialogMessageActionType | SetUserProfileACType | GetProfileStatusACType
+    AddPostsActionType |
+    AddDialogMessageActionType  | SetUserProfileACType | GetProfileStatusACType
 export type AddPostsActionType = ReturnType<typeof AddPostAC>
-export type ChangeTextareaValueActionType = ReturnType<typeof ChangeTextareaValueAC>
-export type ProfilePageActionType = AddPostsActionType | ChangeTextareaValueActionType
+
+export type ProfilePageActionType = AddPostsActionType
 export type ProfileUserResponseType = {
     "aboutMe": string,
     "contacts": {
@@ -33,14 +33,12 @@ export type ProfileUserResponseType = {
 export type ProfileUserType = null |  ProfileUserResponseType
 type initialStateType = {
     postsData: PropsPostsType[]
-    message: string
     profile: null |  ProfileUserType
     status: string
 
 }
 const initialState:ProfilePageType = {
     postsData: [],
-    message: '',
     profile: null,
     status: ''
 }
@@ -50,13 +48,10 @@ const profileReducer = (state:initialStateType = initialState, action: ActionTyp
         case "ADD-POST":
             let newPost = {
                 id: state.postsData.length + 1,
-                message: state.message,
+                message: action.post,
                 likesCount: 0
             }
-            return {...state, postsData: [...state.postsData, newPost], message: ''}
-        case "CHANGE-TEXTAREA-VALUE":
-            // state.message = action.message
-            return {...state, message: action.message}
+            return {...state, postsData: [...state.postsData, newPost]}
         case "SET-USER-PROFILE":
             return {...state, profile: {...action.profile}}
         case "SET-PROFILE-STATUS":
@@ -66,17 +61,13 @@ const profileReducer = (state:initialStateType = initialState, action: ActionTyp
     }
 }
 
-export const AddPostAC = () => {
+export const AddPostAC = (post:string) => {
     return {
-        type: "ADD-POST"
+        type: "ADD-POST",
+        post
     } as const
 }
-export const ChangeTextareaValueAC = (message: string) => {
-    return {
-        type: "CHANGE-TEXTAREA-VALUE",
-        message: message
-    } as const
-}
+
 export type SetUserProfileACType = ReturnType<typeof SetUserProfileAC>
 export const SetUserProfileAC = (profile:any) => {
     return {

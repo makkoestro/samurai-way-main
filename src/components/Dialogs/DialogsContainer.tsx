@@ -1,7 +1,7 @@
 
 import {DialogsPageType} from "../../App";
 
-import {AddDialogMessageAC, ChangeDialogMessageValueAC} from "../../redux/dialogs-reducer";
+import {AddDialogMessageAC} from "../../redux/dialogs-reducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {compose, Dispatch} from "redux";
@@ -55,18 +55,15 @@ const mapStateToProps = (state:mapStateToPropsType) => {
     }
 }
 type mapDispatchToPropsType = {
-    addDialogMessage: () => void
-    ChangeDialogMessage: (text:string) => void
+    addDialogMessage: (message:string) => void
 }
 export type DialogsPropsType = mapStateToPropsType & mapDispatchToPropsType
 const mapDispatchToProps = (dispatch:Dispatch):mapDispatchToPropsType => {
     return {
-        addDialogMessage: () => {
-            dispatch(AddDialogMessageAC())
+        addDialogMessage: (message:string) => {
+            dispatch(AddDialogMessageAC(message))
         },
-        ChangeDialogMessage: (text:string) => {
-            dispatch(ChangeDialogMessageValueAC(text))
-        }
+
     }
 }
 

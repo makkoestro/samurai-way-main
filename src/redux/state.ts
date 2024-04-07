@@ -2,10 +2,9 @@ import {stateType} from "../App";
 import profileReducer, {
     ActionType,
     AddPostsActionType,
-    ChangeTextareaValueActionType,
     ProfilePageActionType, SetUserProfileACType
 } from "./profile-reducer";
-import dialogReducer, {AddDialogMessageActionType, ChangeDialogMessageActionType} from "./dialogs-reducer";
+import dialogReducer, {AddDialogMessageActionType} from "./dialogs-reducer";
 
 type StoreType = {
     _state: stateType,

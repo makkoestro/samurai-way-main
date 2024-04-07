@@ -3,28 +3,24 @@ import classes from './MyPosts.module.css'
 import Post from "../Post/Post";
 import {log} from "util";
 import {MyPostsPropsType} from "./MyPostsContainer";
+import PostForm, {FormPropsType} from './PostForm'
 
 
 const MyPosts = (props: MyPostsPropsType) => {
-
-
-
     const posts = props.posts.map(p => {
         return <Post key={p.id} message={p.message} likesCount={p.likesCount}/>
     })
-    let addPost = () => {
-        props.addPost()
-    }
-    const changeTextAreaValueHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.changeNewPostText(e.currentTarget.value)
+
+
+    const onSubmit = (value: FormPropsType) => {
+        console.log(value)
+        props.addPost(value.message)
     }
     return (
         <div>
             <div className={classes.posts}>
                 <h3>My posts</h3>
-                <textarea placeholder={'Type new post'} onChange={changeTextAreaValueHandler}
-                          value={props.postMessages}></textarea>
-                <button onClick={addPost}>add post</button>
+                <PostForm onSubmit={onSubmit}/>
                 {posts}
             </div>
 

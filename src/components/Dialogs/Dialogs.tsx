@@ -4,10 +4,12 @@ import {Message} from "./Message/Message";
 import {DialogsPageType} from "../../App";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {DialogsPropsType} from "./DialogsContainer";
+import AddMessageForm, {FormPropsType} from '../Dialogs/MessageForm'
+import {Dispatch} from "redux";
+import {reset} from "redux-form";
 
 
-
-export const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, addDialogMessage, ChangeDialogMessage}) => {
+export const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, addDialogMessage}) => {
 
     const dialogs = dialogsPage.dialogsData.map(d => {
         return <DialogItem key={d.id} name={d.name} id={`${d.id}`}/>
@@ -21,10 +23,14 @@ export const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, addDialogMessa
         // if (newPostEl.current !== null) {
         //
         // }
-        addDialogMessage()
+
     }
-    const ChangeDialogMessageHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        ChangeDialogMessage(e.currentTarget.value)
+
+    const submitForm = (formData: FormPropsType, dispatch:Dispatch) => {
+        addDialogMessage(formData.message)
+        console.log(formData)
+        dispatch(reset('dialogAddMessageForm'))
+
     }
 
 
@@ -34,10 +40,11 @@ export const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, addDialogMessa
                 {dialogs}
             </ul>
             <div className={'messages'}>
+                <AddMessageForm onSubmit={submitForm}/>
                 {messages}
-                <textarea onChange={ChangeDialogMessageHandler} value={dialogsPage.dialogMessage}
-                          ref={newPostEl}></textarea>
-                <button onClick={addDialogMessageHandler}>Add</button>
+                {/*<textarea onChange={ChangeDialogMessageHandler} value={dialogsPage.dialogMessage}*/}
+                {/*          ref={newPostEl}></textarea>*/}
+                {/*<button onClick={addDialogMessageHandler}>Add</button>*/}
             </div>
         </div>
     );

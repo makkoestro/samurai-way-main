@@ -1,4 +1,4 @@
-type AuthReducerActionType = setAuthUserDataACType
+type AuthReducerActionType = setAuthUserDataACType | SetIsAuthType | logoutACType
 // const AuthReducerActionType =
 type initialStateType = {
     id: null | number,
@@ -21,6 +21,10 @@ const authReducer = (state: initialStateType = initialState, action: AuthReducer
                 ...action.data,
                 isAuth: true
             }
+        case "SET-ISAUTH":
+            return {...state, isAuth: action.isAuth}
+        case "LOGOUT":
+            return {id: null, email: null, login: null, isAuth: false}
         default:
             return state
     }
@@ -32,6 +36,19 @@ export const setAuthUserDataAC = (id: null, login: string, email: string) => {
         data: {
             id, login, email
         }
+    } as const
+}
+type SetIsAuthType = ReturnType<typeof setIsAuthAC>
+export const setIsAuthAC = (isAuth:boolean) => {
+    return {
+        type: 'SET-ISAUTH',
+        isAuth
+    } as const
+}
+type logoutACType = ReturnType<typeof logoutAC>
+export const logoutAC = () => {
+    return {
+        type: 'LOGOUT'
     } as const
 }
 
