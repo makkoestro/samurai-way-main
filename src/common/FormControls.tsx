@@ -30,7 +30,7 @@ export const Input = ({input, meta, ...props}:WrappedFieldProps) => {
     const hasError = meta.error && meta.touched
     return <div className={s.formControl + ' ' + (hasError? s.error : '')}>
         <input {...input} {...props}/>
-        {hasError && <div style={{color: 'red'}}>{meta.error}</div>}
+        {hasError && <div style={{color: 'darkred'}}>{meta.error}</div>}
     </div>
 };
 

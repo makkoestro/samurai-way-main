@@ -88,14 +88,14 @@ export const UpdProfileStatusAC = (status:string) => {
         status
     } as const
 }
-export const SetUserProfileTC = (userId:string) => {
+export const SetUserProfileTC = (userId:number) => {
     return (dispatch: Dispatch) => {
         profileApi.getProfileData(userId).then(res => {
             dispatch(SetUserProfileAC(res.data))
         })
     }
 }
-export const getProfileStatusTC = (userId:string) => {
+export const getProfileStatusTC = (userId:number) => {
     return (dispatch: Dispatch) => {
         profileApi.getStatus(userId).then(res => {
             console.log(res.data)

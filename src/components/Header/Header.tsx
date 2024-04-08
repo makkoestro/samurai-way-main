@@ -5,6 +5,7 @@ import {NavLink} from "react-router-dom";
 
 type HeaderPropsType = HeaderContainerPropsType
 const Header = ({login, isAuth, logout}:HeaderPropsType) => {
+    console.log(login)
     return (
         <header className={classes.header}>
 

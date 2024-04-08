@@ -24,6 +24,7 @@ export type FormPropsType = {
                 <div>
                     <Field name={'rememberMe'} component={FormControl}  tagName={'input'} type={'checkbox'}/>
                 </div>
+                {props.error && <div style={{color: 'red'}}>{props.error}</div> }
                 <div>
                     <button>Log in</button>
                 </div>

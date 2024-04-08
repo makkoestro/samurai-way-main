@@ -17,11 +17,18 @@ type ProfileContainerPropsTYpe = PropsType & RouteComponentProps<PathParamsType>
 class ProfileContainer extends React.Component<ProfileContainerPropsTYpe> {
 
     componentDidMount() {
-        console.log(this.props)
-        let userId = this.props.match.params.userId
-        if (!userId) userId = '30538'
-        this.props.SetUserProfile(userId)
-        this.props.getProfileStatus(userId)
+        console.log(this.props.authLoggedId)
+        let userId: number | null = Number(  this.props.match.params.userId)
+        if (!userId) {
+            userId = this.props.authLoggedId
+            if (!userId) this.props.history.push('/login')
+        }
+        if (typeof userId === "number") {
+            this.props.SetUserProfile(userId)
+        }
+        if (typeof userId === "number") {
+            this.props.getProfileStatus(userId)
+        }
     }
 
     render() {
@@ -37,15 +44,16 @@ type PathParamsType = {
 const MapStateToProps = () => {
     return {
         profile: store.getState().profilePage.profile,
-        status: store.getState().profilePage.status
+        status: store.getState().profilePage.status,
+        authLoggedId:store.getState().auth.id
     }
 
 }
 
 const MapDispatchToProps = (dispatch: AppThunkDispatch) => {
     return {
-        SetUserProfile: (userId: string) => dispatch(SetUserProfileTC(userId)),
-        getProfileStatus: (userId:string) => dispatch(getProfileStatusTC(userId)),
+        SetUserProfile: (userId: number) => dispatch(SetUserProfileTC(userId)),
+        getProfileStatus: (userId:number) => dispatch(getProfileStatusTC(userId)),
         updProfileStatus: (status:string) => dispatch(UpdProfileStatusTC(status))
     }
 }
@@ -54,5 +62,5 @@ const MapDispatchToProps = (dispatch: AppThunkDispatch) => {
 export default compose<React.ComponentType>(
     connect(MapStateToProps, MapDispatchToProps),
     withRouter,
-    withAuthRedirect,
+    // withAuthRedirect,
 )(ProfileContainer)

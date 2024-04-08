@@ -5,6 +5,7 @@ import usersReducer from "./users-reducer";
 import authReducer from "./auth-reducer";
 import thunkMiddleware, {ThunkDispatch} from "redux-thunk";
 import {reducer as formReducer} from 'redux-form'
+import {appReducer} from "redux/app-reducer";
 
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     dialogsPage: dialogReducer,
     usersPage: usersReducer,
     auth: authReducer,
+    app: appReducer,
     form: formReducer
 })
 export type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>

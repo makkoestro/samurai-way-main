@@ -37,10 +37,10 @@ export const authApi = {
     }
 }
 export const profileApi = {
-    getProfileData(userId:string) {
+    getProfileData(userId:number) {
         return instance.get<ProfileUserResponseType>(`profile/${userId}`)
     },
-    getStatus(userId:string) {
+    getStatus(userId:number) {
         return instance.get<any>(`profile/status/${userId}`)
     },
     updStatus(status:string) {

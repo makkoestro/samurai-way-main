@@ -109,5 +109,4 @@ const mapDispatchToProps = (dispatch: AppThunkDispatch) => {
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, mapDispatchToProps),
-    withAuthRedirect
 )(UsersAPIComponent)

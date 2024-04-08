@@ -14,9 +14,13 @@ import {UserType} from "./redux/users-reducer";
 
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import {ProfileUserType} from "./redux/profile-reducer";
-import HeaderComponent from "./components/Header/HeaderContainer";
+import HeaderComponent, {HeaderContainerPropsType} from "./components/Header/HeaderContainer";
 import LoginContainer from "./components/Login/Login";
 import NewsContainer from "./components/News/NewsContainer";
+import {AppRootStateType, AppThunkDispatch, store} from "redux/store";
+import {Preloader} from "common/Preloader";
+import {connect, useSelector} from "react-redux";
+import {logOutTC, setAuthUserDataTC} from "redux/set-auth-user-data-t-c";
 
 export type DialogsPropsType = {
     id: number; name: string;
@@ -53,27 +57,44 @@ export type PropsPostsType = {
 }
 
 
-
-
-function App() {
-
-    return (
-        <div className="app-wrapper">
-            <HeaderComponent/>
-            <Navbar/>
-            <main
-                className={'app-wrapper-main'}>     {/*что бы применялись повторяющиеся стили вне зависимости от контента*/}
-                <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
-                <Route path={'/dialogs'}
-                       render={() => <DialogsContainer />}/>
-                <Route path={'/users'} render={() => <UsersContainer/>}/>
-                <Route path={'/news'} component={NewsContainer}/>
-                <Route path={'/music'} component={Music}/>
-                <Route path={'/settings'} component={Settings}/>
-                <Route path={'/login'} render={() => <LoginContainer/>}/>
-            </main>
-        </div>
-    );
+class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType>{
+    componentDidMount() {
+        this.props.setAuthUserData()
+    }
+    render() {
+        if (!this.props.isInitialized) return <Preloader/>
+        return (
+            <div className="app-wrapper">
+                <HeaderComponent/>
+                <Navbar/>
+                <main
+                    className={'app-wrapper-main'}>     {/*что бы применялись повторяющиеся стили вне зависимости от контента*/}
+                            <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
+                            <Route path={'/dialogs'}
+                                   render={() => <DialogsContainer/>}/>
+                            <Route path={'/users'} render={() => <UsersContainer/>}/>
+                            <Route path={'/news'} component={NewsContainer}/>
+                            <Route path={'/music'} component={Music}/>
+                            <Route path={'/settings'} component={Settings}/>
+                            <Route path={'/login'} render={() => <LoginContainer/>}/>
+                </main>
+            </div>
+        );
+    }
 }
 
-export default App;
+type mapStateToPropsType = ReturnType<typeof mapStateToProps>
+const mapStateToProps = (state:AppRootStateType) => {
+    return {
+        isInitialized:state.app.isInitialized
+
+    }
+}
+type mapDispatchToPropsType = ReturnType<typeof mapDispatchToProps>
+const mapDispatchToProps = (dispatch: AppThunkDispatch) => {
+    return {
+        setAuthUserData: () => dispatch(setAuthUserDataTC())
+    }
+}
+export default connect (mapStateToProps, mapDispatchToProps) (App)
+
