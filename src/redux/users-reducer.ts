@@ -5,7 +5,7 @@ import {userApi} from "../api/api";
 
 type UserReducerActionType = ChangeStatusAC
     | SetUsersACType
-    | SetCurrentPageACType
+    | SetPageACType
     | setTotalCountAcType
     | setIsFetchingACType
     | setFollowingInProgressACType
@@ -39,7 +39,7 @@ const initialState = {
     users: [] as UserType[],
     pageSize: 5,
     totalCount: 19,
-    currentPage: 1,
+    Page: 1,
     isFetching: false,
 
 }
@@ -56,7 +56,7 @@ const usersReducer = (state: initialStateType = initialState, action: UserReduce
         case "SET-USERS":
             return {...state, users: [...action.users]}
         case "SET-CURRENT-PAGE":
-            return {...state, currentPage: action.currentPage, users: [...state.users]}
+            return {...state, Page: action.Page, users: [...state.users]}
         case "SET-TOTAL-COUNT":
             return {...state, totalCount: action.count}
         case "SET-IS-FETCHING":
@@ -88,11 +88,11 @@ export const SetUsersAC = (users: UserType[]) => {
 
     } as const
 }
-type SetCurrentPageACType = ReturnType<typeof SetCurrentPageAC>
-export const SetCurrentPageAC = (currentPage: number) => {
+type SetPageACType = ReturnType<typeof SetPageAC>
+export const SetPageAC = (Page: number) => {
     return {
         type: 'SET-CURRENT-PAGE',
-        currentPage: currentPage
+        Page: Page
     } as const
 }
 type setTotalCountAcType = ReturnType<typeof setTotalCountAC>
@@ -116,11 +116,12 @@ export const setFollowingInProgressAC = (isFollow: boolean, id: number) => {
         isFollow, id
     } as const
 }
-export const SetUsersTC = (pageSize: number, currentPage: number) => {
+export const SetUsersTC = (pageSize: number, Page: number) => {
     return (dispatch: Dispatch) => {
         dispatch(setIsFetchingAC(true))
-        userApi.getUsers(pageSize, currentPage).then(res => res.data).then(data => {
-            dispatch(SetCurrentPageAC(currentPage))
+        userApi.getUsers(pageSize, Page).then(res => res.data).then(data => {
+            console.log(data)
+            dispatch(SetPageAC(Page))
             dispatch(setIsFetchingAC(false))
             dispatch(SetUsersAC(data.items))
             dispatch(setTotalCountAC(data.totalCount))

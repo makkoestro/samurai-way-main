@@ -1,7 +1,7 @@
 import React from 'react';
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
-import {AppThunkDispatch, store} from "../../redux/store";
+import {AppRootStateType, AppThunkDispatch, store} from "../../redux/store";
 import {getProfileStatusTC, SetUserProfileAC, SetUserProfileTC, UpdProfileStatusTC} from "../../redux/profile-reducer";
 import {withRouter, RouteComponentProps, Redirect} from "react-router-dom";
 import {profileApi} from "../../api/api";
@@ -18,22 +18,24 @@ class ProfileContainer extends React.Component<ProfileContainerPropsTYpe> {
 
     componentDidMount() {
         console.log(this.props.authLoggedId)
-        let userId: number | null = Number(  this.props.match.params.userId)
+        let userId: number | null = Number(this.props.match.params.userId)
+
         if (!userId) {
             userId = this.props.authLoggedId
-            if (!userId) this.props.history.push('/login')
+            if (!userId) this.props.history.push('login')
         }
-        if (typeof userId === "number") {
+        if (userId) {
             this.props.SetUserProfile(userId)
         }
-        if (typeof userId === "number") {
+        if (userId) {
             this.props.getProfileStatus(userId)
         }
     }
 
     render() {
 
-        return <Profile updStatus={this.props.updProfileStatus} profile={this.props.profile} status={this.props.status}/>;
+        return <Profile updStatus={this.props.updProfileStatus} profile={this.props.profile}
+                        status={this.props.status}/>;
     }
 }
 
@@ -41,11 +43,11 @@ type PathParamsType = {
     userId: string,
 }
 
-const MapStateToProps = () => {
+const MapStateToProps = (state: AppRootStateType) => {
     return {
-        profile: store.getState().profilePage.profile,
-        status: store.getState().profilePage.status,
-        authLoggedId:store.getState().auth.id
+        profile: state.profilePage.profile,
+        status: state.profilePage.status,
+        authLoggedId: state.auth.id
     }
 
 }
@@ -53,8 +55,8 @@ const MapStateToProps = () => {
 const MapDispatchToProps = (dispatch: AppThunkDispatch) => {
     return {
         SetUserProfile: (userId: number) => dispatch(SetUserProfileTC(userId)),
-        getProfileStatus: (userId:number) => dispatch(getProfileStatusTC(userId)),
-        updProfileStatus: (status:string) => dispatch(UpdProfileStatusTC(status))
+        getProfileStatus: (userId: number) => dispatch(getProfileStatusTC(userId)),
+        updProfileStatus: (status: string) => dispatch(UpdProfileStatusTC(status))
     }
 }
 
@@ -62,5 +64,5 @@ const MapDispatchToProps = (dispatch: AppThunkDispatch) => {
 export default compose<React.ComponentType>(
     connect(MapStateToProps, MapDispatchToProps),
     withRouter,
-    // withAuthRedirect,
+    withAuthRedirect,
 )(ProfileContainer)

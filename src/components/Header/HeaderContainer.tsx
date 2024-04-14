@@ -4,7 +4,7 @@ import {AppRootStateType, AppThunkDispatch, store} from "../../redux/store";
 import {setAuthUserDataAC} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
 import {authApi} from "../../api/api";
-import {logOutTC, setAuthUserDataTC} from "../../redux/set-auth-user-data-t-c";
+import {logOutTC, getAuthUserDataTC} from "../../redux/set-auth-user-data-t-c";
 class HeaderComponent extends React.Component<HeaderContainerPropsType>{
 
     render() {

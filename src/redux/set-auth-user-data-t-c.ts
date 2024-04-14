@@ -6,14 +6,15 @@ import {setAppInitializedStatus} from "redux/app-reducer";
 import {stopSubmit} from "redux-form";
 import {AppThunkDispatch} from "redux/store";
 
-export const setAuthUserDataTC = () => {
+export const getAuthUserDataTC = () => {
     return (dispatch: Dispatch) => {
-        authApi.getAuthData().then(res => {
+
+        return authApi.getAuthData().then(res => {
             console.log(res.data)
             if (res.data.resultCode == 0) {
                 dispatch(setAuthUserDataAC(res.data.data.id, res.data.data.login, res.data.data.email))
             }
-        }).finally(() => dispatch(setAppInitializedStatus(true)))
+        })
     }
 }
 export const setIsAuthTC = (loginData: FormPropsType) => {
@@ -23,16 +24,19 @@ export const setIsAuthTC = (loginData: FormPropsType) => {
     }
     return (dispatch: AppThunkDispatch) => {
         authApi.login(logData).then(res => {
-            console.log(res.data)
             if (res.data.resultCode === 0) {
-                dispatch(setIsAuthAC(true))
+                let res = dispatch(getAuthUserDataTC())
+                res.then(() => {
+                    dispatch(setIsAuthAC(true))
+                })
+
             } else {
                 let stopForm = stopSubmit('login', {_error: res.data.messages[0]})
                 dispatch(stopForm)
             }
             // if (res.data.resultCode == 0) dispatch(setAuthUserDataAC(res.data.data.id, res.data.data.login, res.data.data.email))
         }).then(() => {
-            dispatch(setAuthUserDataTC())
+
         })
     }
 }

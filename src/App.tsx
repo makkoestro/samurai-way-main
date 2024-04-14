@@ -20,7 +20,8 @@ import NewsContainer from "./components/News/NewsContainer";
 import {AppRootStateType, AppThunkDispatch, store} from "redux/store";
 import {Preloader} from "common/Preloader";
 import {connect, useSelector} from "react-redux";
-import {logOutTC, setAuthUserDataTC} from "redux/set-auth-user-data-t-c";
+import {logOutTC, getAuthUserDataTC} from "redux/set-auth-user-data-t-c";
+import {initializeApp} from "redux/app-reducer";
 
 export type DialogsPropsType = {
     id: number; name: string;
@@ -58,8 +59,10 @@ export type PropsPostsType = {
 
 
 class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType>{
+
     componentDidMount() {
-        this.props.setAuthUserData()
+        this.props.initializeApp()
+        console.log(this.props.isInitialized)
     }
     render() {
         if (!this.props.isInitialized) return <Preloader/>
@@ -93,7 +96,7 @@ const mapStateToProps = (state:AppRootStateType) => {
 type mapDispatchToPropsType = ReturnType<typeof mapDispatchToProps>
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => {
     return {
-        setAuthUserData: () => dispatch(setAuthUserDataTC())
+        initializeApp: () => dispatch(initializeApp())
     }
 }
 export default connect (mapStateToProps, mapDispatchToProps) (App)

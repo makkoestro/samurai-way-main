@@ -7,15 +7,16 @@ type PropsType = {
     users: UserType[]
     totalCount:number
     pageSize:number
-    currentPage:number
+    Page:number
     onPageChanged: (p:number) => void
     onFollowStatus: (id:number) => void
     setUnfollowStatus: (id:number) => void
 }
 
 export const Users = (props:PropsType) => {
-    console.log(props.users)
+
     let pagesCount = Math.ceil(props.totalCount / props.pageSize)
+    console.log(pagesCount)
     let pages = []
     for (let i = 1;i <= pagesCount;i++) {
         if (pages.length < 10) {
@@ -29,7 +30,7 @@ export const Users = (props:PropsType) => {
     return (
         <div >
             <div>
-                {pages.map(p => <span onClick={() => onPageChangedHandler(p)} className={props.currentPage === p ? `${s.pageStyle} ${s.isSelected}` : s.pageStyle}>{p}</span>)}
+                {pages.map(p => <span onClick={() => onPageChangedHandler(p)} className={props.Page === p ? `${s.pageStyle} ${s.isSelected}` : s.pageStyle}>{p}</span>)}
             </div>
 
             <div></div>

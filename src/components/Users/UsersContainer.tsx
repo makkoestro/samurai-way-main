@@ -1,20 +1,11 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {
-    ChangeStatusAC,
-    SetCurrentPageAC,
-    setIsFetchingAC,
-    setTotalCountAC,
-    setFollowingInProgressAC,
-    UserType, SetUsersTC, setFollowStatusTC, setUnfollowStatusTC
-} from "../../redux/users-reducer";
-import {AppThunkDispatch, store, StoreStateType} from "../../redux/store";
-import axios from "axios";
+import {setFollowStatusTC, setUnfollowStatusTC, SetUsersTC} from "../../redux/users-reducer";
+import {AppThunkDispatch, StoreStateType} from "../../redux/store";
 import {Users} from "./Users";
 import {Preloader} from "../../common/Preloader";
-import {userApi} from "../../api/api";
-import {withAuthRedirect} from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
+import {getPage, getIsFetching, getPageSize, getTotalCount, getUsers} from "redux/users-selectors";
 
 
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
@@ -24,7 +15,7 @@ export type UsersPropsType = mapStateToPropsType & mapDispatchToProps
 export class UsersAPIComponent extends React.Component<UsersPropsType> {
 
     componentDidMount() {
-        this.props.SetUsersTC(this.props.pageSize, this.props.currentPage)
+        this.props.SetUsersTC(this.props.pageSize, this.props.Page)
     }
 
     componentWillUnmount() {
@@ -49,7 +40,7 @@ export class UsersAPIComponent extends React.Component<UsersPropsType> {
                 : <Users users={this.props.users}
                          totalCount={this.props.totalCount}
                          pageSize={this.props.pageSize}
-                         currentPage={this.props.currentPage}
+                         Page={this.props.Page}
                          onPageChanged={this.onPageChanged}
                          onFollowStatus={this.setFollowStatus}
                          setUnfollowStatus={this.setUnfollowStatus}
@@ -61,11 +52,11 @@ export class UsersAPIComponent extends React.Component<UsersPropsType> {
 
 const mapStateToProps = (state: StoreStateType) => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalCount: state.usersPage.totalCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalCount: getTotalCount(state),
+        Page: getPage(state),
+        isFetching: getIsFetching(state),
 
     }
 }
@@ -77,8 +68,8 @@ const mapStateToProps = (state: StoreStateType) => {
 //         setUsers: (users: UserType[]) => {
 //             dispatch(SetUsersAC(users))
 //         },
-//         setCurrentPage: (page:number) => {
-//             dispatch(SetCurrentPageAC(page))
+//         setPage: (page:number) => {
+//             dispatch(SetPageAC(page))
 //         },
 //         setTotalCount: (count:number) => {
 //             dispatch((setTotalCountAC(count)))
@@ -92,14 +83,14 @@ const mapStateToProps = (state: StoreStateType) => {
 // }
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => {
     return {
-        SetUsersTC: (pageSize: number, currentPage: number) => dispatch(SetUsersTC(pageSize, currentPage)),
+        SetUsersTC: (pageSize: number, Page: number) => dispatch(SetUsersTC(pageSize, Page)),
         setFollowStatus: (userId: number) => dispatch(setFollowStatusTC(userId)),
         setUnfollowStatus: (userId: number) => dispatch(setUnfollowStatusTC(userId))
     };
 };
 // const mapDispatchToProps = {
 //     changeStatus:ChangeStatusAC,
-//     setCurrentPage: SetCurrentPageAC,
+//     setPage: SetPageAC,
 //     setTotalCount: setTotalCountAC,
 //     setIsFetching: setIsFetchingAC,
 //     changeFollowStatus: ChangeStatusAC,

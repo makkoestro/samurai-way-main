@@ -15,8 +15,8 @@ type LoginType = {
     rememberMe:boolean
 }
 export const userApi = {
-    getUsers(pageSize: number, currentPage: number) {
-        return instance.get(`users?count=${pageSize}&page=${currentPage}`)
+    getUsers(pageSize: number, Page: number) {
+        return instance.get(`users?count=${pageSize}&page=${Page}`)
     },
     setFollowStatus(userId:number) {
         return instance.post(`follow/${userId}`)
