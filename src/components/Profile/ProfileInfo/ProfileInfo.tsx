@@ -3,6 +3,7 @@ import classes from "./ProfileInfo.module.css";
 import {ProfileUserType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../../common/Preloader";
 import ProfileStatus from "./ProfileStatus";
+import {ProfileStatusWithHooks} from "components/Profile/ProfileInfo/ProfileStatusWithHooks";
 type ProfileInfoPropsType = {
     profile: ProfileUserType
     status:string
@@ -26,7 +27,7 @@ const ProfileInfo = ({profile, status, updStatus}:ProfileInfoPropsType) => {
                         </li>
                         <li></li>
                         {/*<li>{profile.aboutMe}</li>*/}
-                        <li><ProfileStatus updStatus={updStatus} status={status}/></li>
+                        <li><ProfileStatusWithHooks updStatus={updStatus} status={status}/></li>
                         <li></li>
                         <li><a href={`https://${profile.contacts.vk}`}> {profile.contacts.vk}</a></li>
                         <li><a href={`https://${profile.contacts.instagram}`}> {profile.contacts.instagram}</a></li>
