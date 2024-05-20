@@ -5,7 +5,7 @@ import {Dispatch} from "redux";
 
 export type ActionType =
     AddPostsActionType |
-    AddDialogMessageActionType  | SetUserProfileACType | GetProfileStatusACType
+    AddDialogMessageActionType  | SetUserProfileACType | GetProfileStatusACType | DeletePostACType
 export type AddPostsActionType = ReturnType<typeof AddPostAC>
 
 export type ProfilePageActionType = AddPostsActionType
@@ -43,7 +43,7 @@ const initialState:ProfilePageType = {
     status: ''
 }
 
-const profileReducer = (state:initialStateType = initialState, action: ActionType):initialStateType => {
+export const profileReducer = (state:initialStateType = initialState, action: ActionType):initialStateType => {
     switch (action.type) {
         case "ADD-POST":
             let newPost = {
@@ -56,6 +56,8 @@ const profileReducer = (state:initialStateType = initialState, action: ActionTyp
             return {...state, profile: {...action.profile}}
         case "SET-PROFILE-STATUS":
             return {...state, status: action.status}
+        case "DELETE-POST":
+            return {...state, postsData: state.postsData.filter(el => el.id != action.postId)}
 
         default: return state
     }
@@ -86,6 +88,13 @@ export const UpdProfileStatusAC = (status:string) => {
     return {
         type: 'SET-PROFILE-STATUS',
         status
+    } as const
+}
+type DeletePostACType = ReturnType<typeof DeletePostAC>
+export const DeletePostAC = (postId:number) => {
+    return {
+        type: 'DELETE-POST',
+        postId
     } as const
 }
 export const SetUserProfileTC = (userId:number) => {

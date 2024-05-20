@@ -6,7 +6,8 @@ import {MyPostsPropsType} from "./MyPostsContainer";
 import PostForm, {FormPropsType} from './PostForm'
 
 
-const MyPosts = (props: MyPostsPropsType) => {
+const MyPosts = React.memo((props: MyPostsPropsType) => {
+    console.log('MYPOSTS')
     const posts = props.posts.map(p => {
         return <Post key={p.id} message={p.message} likesCount={p.likesCount}/>
     })
@@ -26,6 +27,6 @@ const MyPosts = (props: MyPostsPropsType) => {
 
         </div>
     );
-};
+})
 
 export default MyPosts;
