@@ -112,16 +112,12 @@ export const getProfileStatusTC = (userId:number) => {
         })
     }
 }
-export const UpdProfileStatusTC = (status:string) => {
-    return (dispatch: Dispatch) => {
-        profileApi.updStatus(status).then(res => {
+export const UpdProfileStatusTC = (status:string) => async (dispatch: Dispatch)  => {
+        const res = await profileApi.updStatus(status)
             if (res.data.resultCode === 0) {
                 dispatch(GetProfileStatusAC(status))
             }
             console.log(res.data)
-
-        })
-    }
 }
 
 export default profileReducer

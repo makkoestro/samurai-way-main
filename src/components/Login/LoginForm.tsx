@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field, reduxForm, InjectedFormProps} from "redux-form";
-import {FormControl, Input} from "common/FormControls";
+import {createField, FormControl, Input} from "common/FormControls";
 import {requiredField} from "utils/validators/validators";
 
 
@@ -16,13 +16,15 @@ export type FormPropsType = {
         <div>
             <form onSubmit={props.handleSubmit}>
                 <div>
-                    <Field  name={'login'} placeholder={'login'} validate={[requiredField]}  tagName={'input'}  component={FormControl} />
+                    {createField('login', 'login',FormControl,undefined,   requiredField )}
                 </div>
                 <div>
-                    <Field type={'password'} name={'password'} validate={[requiredField]}   tagName={'input'} placeholder={'password'} component={FormControl}/>
+
+                    {createField('password', 'password',FormControl, 'password',   requiredField )}
                 </div>
                 <div>
-                    <Field name={'rememberMe'} component={FormControl}  tagName={'input'} type={'checkbox'}/>
+
+                    {createField('rememberMe', 'password',FormControl, 'checkbox' )}
                 </div>
                 {props.error && <div style={{color: 'red'}}>{props.error}</div> }
                 <div>

@@ -1,6 +1,7 @@
 import {DialogsPageType, DialogsPropsType, MessagesPropsType} from "../App";
 import {Dispatch} from "redux";
-import {userApi} from "../api/api";
+import { userApi} from "../api/api";
+import {updObjInArray} from "utils/validators/object-helpers";
 
 
 type UserReducerActionType = ChangeStatusAC
@@ -46,12 +47,11 @@ const initialState = {
 
 const usersReducer = (state: initialStateType = initialState, action: UserReducerActionType): initialStateType => {
 
-
     switch (action.type) {
         case "CHANGE-FOLLOW-STATUS":
             return {
                 ...state,
-                users: state.users.map(el => el.id === action.userId ? {...el, followed: action.isFollowed} : el)
+                users: updObjInArray<UserType, Partial<UserType> >(state.users, 'id', action.userId,{followed: action.isFollowed})
             }
         case "SET-USERS":
             return {...state, users: [...action.users]}
@@ -64,7 +64,7 @@ const usersReducer = (state: initialStateType = initialState, action: UserReduce
         case "SET-FOLLOWING-STATUS":
             return {
                 ...state,
-                users: state.users.map(u => u.id === action.id ? {...u, followingInProgress: action.isFollow} : u)
+                users:updObjInArray<UserType, Partial<UserType> >(state.users, 'id', action.id,{followingInProgress: action.isFollow})
             }
 
         default:
@@ -129,24 +129,22 @@ export const SetUsersTC = (pageSize: number, Page: number) => {
         })
     }
 }
+export const followUnfollow = async (userId:number,dispatch: Dispatch, apiMethod:(userId: number) => ReturnType<typeof userApi.setFollowStatus | typeof userApi.setUnfollowStatus>,isFollowed:boolean) => {
+    dispatch(setFollowingInProgressAC(true, userId))
+    const res = await apiMethod(userId)
+    if (res.data.resultCode === 0) {
+        dispatch(ChangeStatusAC(userId,isFollowed ))
+    }
+    dispatch(setFollowingInProgressAC(false, userId))
+}
 export const setFollowStatusTC = (userId:number) => {
     return (dispatch: Dispatch) => {
-        dispatch(setFollowingInProgressAC(true, userId))
-        userApi.setFollowStatus(userId)
-            .then(res => {
-                dispatch(ChangeStatusAC(userId,true ))
-                dispatch(setFollowingInProgressAC(false, userId))
-            })
+        followUnfollow(userId, dispatch, userApi.setFollowStatus, true)
     }
 }
 export const setUnfollowStatusTC = (userId:number) => {
     return (dispatch: Dispatch) => {
-        dispatch(setFollowingInProgressAC(true, userId))
-        userApi.setUnfollowStatus(userId)
-            .then(res => {
-                dispatch(ChangeStatusAC(userId,false ))
-                dispatch(setFollowingInProgressAC(false, userId))
-            })
+        followUnfollow(userId, dispatch, userApi.setUnfollowStatus, false)
     }
 
 }

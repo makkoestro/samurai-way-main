@@ -14,15 +14,17 @@ type LoginType = {
     password: string
     rememberMe:boolean
 }
+export type setFollowStatusType = ReturnType<typeof userApi.setFollowStatus>
+export type setUnfollowStatusType = ReturnType<typeof userApi.setUnfollowStatus>
 export const userApi = {
     getUsers(pageSize: number, Page: number) {
         return instance.get(`users?count=${pageSize}&page=${Page}`)
     },
     setFollowStatus(userId:number) {
-        return instance.post(`follow/${userId}`)
+        return instance.post<ResponseType>(`follow/${userId}`)
     },
     setUnfollowStatus(userId:number) {
-        return instance.delete(`follow/${userId}`)
+        return instance.delete<ResponseType>(`follow/${userId}`)
     }
 }
 export const authApi = {
@@ -50,5 +52,6 @@ export const profileApi = {
 type ResponseType<T = {}> = {
     resultCode: number
     messages: string[],
+    fieldsErrors: [],
     data:T
 }
