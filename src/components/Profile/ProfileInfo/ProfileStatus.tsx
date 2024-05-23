@@ -3,7 +3,7 @@ import React, {ChangeEvent} from 'react';
 
 type ProfileInfoPropsType = {
     status: string,
-    updStatus: (status:string) => void;
+    updStatus?: (status: string) => void;
 }
 
 class ProfileStatus extends React.Component<ProfileInfoPropsType> {
@@ -12,25 +12,29 @@ class ProfileStatus extends React.Component<ProfileInfoPropsType> {
         status: this.props.status
     }
 
-    setActivateMode =  () =>  {
+    setActivateMode = () => {
         // this.state = {...this.state, editMode: false}
         this.setState({
-            editMode:true,
+            editMode: true,
         })
     }
-    setDeactivateMode =  () =>  {
+    setDeactivateMode = () => {
         // this.state = {...this.state, editMode: false}
         this.setState({
             editMode: false,
         })
-        this.props.updStatus(this.state.status)
+        if (this.props.updStatus) {
+            this.props.updStatus(this.state.status)
+        }
+
     }
-    onStatusChange = (e:ChangeEvent<HTMLInputElement>) => {
+    onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             status: e.currentTarget.value
         })
         console.log(e.currentTarget.value)
     }
+
     componentDidUpdate(prevProps: Readonly<ProfileInfoPropsType>, prevState: Readonly<{}>, snapshot?: any) {
 
         let a = this.state.status
@@ -50,10 +54,11 @@ class ProfileStatus extends React.Component<ProfileInfoPropsType> {
             <div>
                 {this.state.editMode
                     ? <div>
-                        <input onChange={this.onStatusChange} autoFocus={true} onBlur={this.setDeactivateMode} value= {this.state.status } placeholder={'status'} type="text"/>
+                        <input onChange={this.onStatusChange} autoFocus={true} onBlur={this.setDeactivateMode}
+                               value={this.state.status} placeholder={'status'} type="text"/>
                     </div>
-                    : <div >
-                        <span onDoubleClick={this.setActivateMode} >{this.props.status || '------'}</span>
+                    : <div>
+                        <span onDoubleClick={this.setActivateMode}>{this.props.status || '------'}</span>
                     </div>
                 }
 
