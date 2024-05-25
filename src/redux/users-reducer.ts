@@ -42,7 +42,7 @@ const initialState = {
     totalCount: 19,
     Page: 1,
     isFetching: false,
-
+    portionSize:10
 }
 
 const usersReducer = (state: initialStateType = initialState, action: UserReducerActionType): initialStateType => {

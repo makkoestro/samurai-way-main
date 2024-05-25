@@ -13,22 +13,14 @@ type PropsType = {
     onPageChanged: (p:number) => void
     onFollowStatus: (id:number) => void
     setUnfollowStatus: (id:number) => void
+    portionSize:number
 }
 
 export const Users = (props:PropsType) => {
 
-    let pagesCount = Math.ceil(props.totalCount / props.pageSize)
-    console.log(pagesCount)
-    let pages = []
-    for (let i = 1;i <= pagesCount;i++) {
-        if (pages.length < 10) {
-            pages.push(i)
-        }
-    }
-
     return (
         <div >
-           <Pagination totalCount={props.totalCount} pageSize={props.pageSize} Page={props.Page} onPageChanged={props.onPageChanged} />
+           <Pagination portionSize={props.portionSize}  totalCount={props.totalCount} pageSize={props.pageSize} Page={props.Page} onPageChanged={props.onPageChanged} />
             {props.users.map(u => <User name={u.name} id={u.id} photos={u.photos} status={u.status} followed={u.followed} followingInProgress={u.followingInProgress} setUnfollowStatus={props.setUnfollowStatus} onFollowStatus={props.onFollowStatus}/>)}
         </div>
     );

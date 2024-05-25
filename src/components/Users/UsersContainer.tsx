@@ -5,7 +5,7 @@ import {AppThunkDispatch, StoreStateType} from "../../redux/store";
 import {Users} from "./Users";
 import {Preloader} from "../../common/Preloader";
 import {compose} from "redux";
-import {getPage, getIsFetching, getPageSize, getTotalCount, getUsers} from "redux/users-selectors";
+import {getPage, getIsFetching, getPageSize, getTotalCount, getUsers, getPortionSize} from "redux/users-selectors";
 
 
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
@@ -16,10 +16,6 @@ export class UsersAPIComponent extends React.Component<UsersPropsType> {
 
     componentDidMount() {
         this.props.SetUsersTC(this.props.pageSize, this.props.Page)
-    }
-
-    componentWillUnmount() {
-        console.log('Я умерла!!((')
     }
 
     onPageChanged = (pageNumber: number) => {
@@ -44,6 +40,7 @@ export class UsersAPIComponent extends React.Component<UsersPropsType> {
                          onPageChanged={this.onPageChanged}
                          onFollowStatus={this.setFollowStatus}
                          setUnfollowStatus={this.setUnfollowStatus}
+                         portionSize={this.props.portionSize}
                 />}
         </>
 
@@ -57,6 +54,7 @@ const mapStateToProps = (state: StoreStateType) => {
         totalCount: getTotalCount(state),
         Page: getPage(state),
         isFetching: getIsFetching(state),
+        portionSize:getPortionSize(state)
 
     }
 }

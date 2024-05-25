@@ -25,3 +25,6 @@ export const getPage_ = (state:AppRootStateType) => {
 export const getIsFetching = (state:AppRootStateType) => {
     return state.usersPage.isFetching
 }
+export const getPortionSize = (state:AppRootStateType) => {
+    return state.usersPage.portionSize
+}
