@@ -24,9 +24,8 @@ const initialState = {
     dialogsData: [
         {id: 1, name: 'Doneil'},
         {id: 2, name: 'Masha'},
-        {id: 3, name: 'Vitalya'},
-        {id: 4, name: 'Zis'},
-        {id: 5, name: 'Radu'},
+        {id: 3, name: 'Volodya'},
+        {id: 4, name: 'Serii'},
     ] as DialogsType[],
     messagesData: [] as MessagesType[],
 }

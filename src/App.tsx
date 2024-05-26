@@ -68,6 +68,7 @@ class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType>{
         if (!this.props.isInitialized) return <Preloader/>
         return (
             <div className="app-wrapper">
+                <Route path={'/login'} render={() => <LoginContainer/>}/>
                 <HeaderComponent/>
                 <Navbar/>
                 <main
@@ -79,7 +80,7 @@ class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType>{
                             <Route path={'/news'} component={NewsContainer}/>
                             <Route path={'/music'} component={Music}/>
                             <Route path={'/settings'} component={Settings}/>
-                            <Route path={'/login'} render={() => <LoginContainer/>}/>
+
                 </main>
             </div>
         );

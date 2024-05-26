@@ -25,6 +25,33 @@ li > a {
 }
 li > a:hover {
     color: #00ffc1;
-
+}
+.dialogForm {
+    max-width: 250px;
+    width: 100%;
+    padding: 8px;
+    background: radial-gradient(circle, #6be4ff, #ca7fe8, #9be18a, #f1dca0, #00ffff, #0000ff, #ff00ff);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    font-size: 17px;
+}
+.dialogFormSubmit {
+    padding: 5px;
+    background-color: transparent;
+    color: white;
+    font-size: 15px;
+    max-width: 70px;
+    width: 100%;
 }
 
+@keyframes gradient {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}

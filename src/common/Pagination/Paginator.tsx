@@ -25,12 +25,10 @@ export const Pagination = (props:PropsType) => {
     }
     return (
         <div >
-            <div>
-                {portion > 1 && <button onClick={() => setPortion(portion -1)}>PREVIOUS</button>}
-
-
+            <div className={s.paginationWrapper}>
+                {portion > 1 && <button className={s.paginationButton} onClick={() => setPortion(portion -1)}>PREV</button>}
                 {pages.filter(i => i >= leftPortionPageNumber && i <= rightPortionPageNumber).map(p => <span onClick={() => onPageChangedHandler(p)} className={props.Page === p ? `${s.pageStyle} ${s.isSelected}` : s.pageStyle}>{p}</span>)}
-                {portion < portionCount && <button  onClick={() => setPortion(portion  + 1)}>NEXT</button>}
+                {portion < portionCount && <button className={s.paginationButton}  onClick={() => setPortion(portion  + 1)}>NEXT</button>}
             </div>
         </div>
     );

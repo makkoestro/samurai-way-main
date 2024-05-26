@@ -1,16 +1,20 @@
 .app-wrapper {
+    position: relative;
     height: 100vh;
     display: grid;
     grid-template-columns: 1fr 6fr;
     grid-template-rows: 68px 1fr;
     grid-template-areas: "header header "
-                       "nav main"
+                       "nav main";
+    background-image: url("https://static.independent.co.uk/s3fs-public/thumbnails/image/2018/09/26/14/odessa-beach-night.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .app-wrapper-main {
     padding: 10px 0 0 10px;
     grid-area: main;
-    background-color: darkmagenta;
-    background-image: url("https://images.unsplash.com/photo-1550522667-09c9bdb293a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8c2VlfGVufDB8fDB8fHww&w=1000&q=80");
+    /*background-color: darkmagenta;*/
+    /*background-image: url("https://images.unsplash.com/photo-1550522667-09c9bdb293a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8c2VlfGVufDB8fDB8fHww&w=1000&q=80");*/
     background-repeat: no-repeat;
     background-size: cover;
 }

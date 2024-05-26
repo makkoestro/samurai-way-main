@@ -2,6 +2,8 @@ import React from 'react';
 import {Field, reduxForm, InjectedFormProps} from "redux-form";
 import {createField, FormControl, Input} from "common/FormControls";
 import {requiredField} from "utils/validators/validators";
+import s from '../Login/Login.module.css'
+
 
 
 export type FormPropsType = {
@@ -14,12 +16,11 @@ export type FormPropsType = {
 
     return (
         <div>
-            <form onSubmit={props.handleSubmit}>
-                <div>
+            <form className={s.form} onSubmit={props.handleSubmit}>
+                <div className={s.loginInput}>
                     {createField('login', 'login',FormControl,undefined,   requiredField )}
                 </div>
-                <div>
-
+                <div className={s.loginInput}>
                     {createField('password', 'password',FormControl, 'password',   requiredField )}
                 </div>
                 <div>
@@ -28,7 +29,7 @@ export type FormPropsType = {
                 </div>
                 {props.error && <div style={{color: 'red'}}>{props.error}</div> }
                 <div>
-                    <button>Log in</button>
+                    <button className={s.loginSubmitButton}>Log in</button>
                 </div>
             </form>
         </div>

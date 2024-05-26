@@ -10,7 +10,6 @@ export const getAuthUserDataTC = () => {
     return (dispatch: Dispatch) => {
 
         return authApi.getAuthData().then(res => {
-            console.log(res.data)
             if (res.data.resultCode == 0) {
                 dispatch(setAuthUserDataAC(res.data.data.id, res.data.data.login, res.data.data.email))
             }
@@ -26,6 +25,7 @@ export const setIsAuthTC = (loginData: FormPropsType) => {
         authApi.login(logData).then(res => {
             if (res.data.resultCode === 0) {
                 let res = dispatch(getAuthUserDataTC())
+
                 res.then(() => {
                     dispatch(setIsAuthAC(true))
                 })

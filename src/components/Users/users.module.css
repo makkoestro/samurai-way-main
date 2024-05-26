@@ -16,10 +16,39 @@
     width: 100%;
     object-fit: cover;
 }
-.isSelected {
-    font-size: 30px;
-    color: silver;
-}
+
 .pageStyle {
     font-size: 20px;
+    border: 1px solid black;
+    padding: 5px;
+    color: silver;
 }
+.isSelected {
+    font-size: 30px;
+    color: #05d4fd;
+}
+.paginationWrapper {
+    display: flex;
+    align-items: center;
+}
+.paginationButton {
+    max-width: 60px;
+    width: 100%;
+    background: linear-gradient(45deg, #d8a9fa, #98d1f8, #c1f6dc, #eeb8c2, #00ffff, #0000ff, #ff00ff);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    border-radius: 8%;
+    padding: 7px;
+}
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+

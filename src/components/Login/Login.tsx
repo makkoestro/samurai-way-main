@@ -7,6 +7,7 @@ import {AppThunkDispatch, StoreStateType} from "../../redux/store";
 import {setIsAuthTC} from "../../redux/set-auth-user-data-t-c";
 import {log} from "util";
 import {Redirect} from "react-router-dom";
+import s from '../Login/Login.module.css'
 
 
 
@@ -21,8 +22,8 @@ const Login = (props: LoginPropsType) => {
     }
     if (props.isAuth) return <Redirect to={'profile'}/>
     return (
-        <div>
-            <h1>LOGIN</h1>
+        <div className={s.login}>
+            <h1 >LOGIN</h1>
             <LoginReduxForm onSubmit={submitForm}/>
         </div>
 
